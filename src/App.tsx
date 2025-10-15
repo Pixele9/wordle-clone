@@ -99,33 +99,31 @@ function App() {
 	}, [handleKeyPress]);
 
 	return (
-		<>
+		<div className="flex flex-col min-h-screen pb-16">
 			{/* <h1>Word: {word}</h1> */}
 
-      <Title />
-			<div className="flex flex-col items-center justify-center mt-6 lg:mt-24">
-				{/* <h1>Guessing: {boardData[currentRow]}</h1> */}
+			<Title />
+			<div className="flex flex-col items-center justify-center mt-4 lg:mt-8">
 				{boardData.map((letter, index) => {
 					return <Row key={index} inputWord={letter} word={word} shouldApplyClassName={index < currentRow} />;
 				})}
 			</div>
 
 
-      {( gameState === "WON" || gameState === "LOST" ) ? (
-        <div className="flex flex-col items-center justify-center mt-16">
-          <h1 className="text-xl font-light tracking-tight">You {gameState === "WON" ? "won!!" : "lost :("}</h1>
-          <h3 className="text-md font-light tracking-tight">The word was: <span className="font-bold">{word}</span></h3>
-          <button className="bg-wordle-accent text-gray-800 text-md px-6 py-3 rounded-xl mt-8 cursor-pointer hover:scale-105 hover:drop-shadow-xl hover:drop-shadow-black/30 hover:-translate-y-1 transition-all duration-200" onClick={initializeGame}>Play Again</button>
-        </div>
-      ) : (
-        <Keyboard handleKeyClick={handleKeyClick} />
-      )}
+			{( gameState === "WON" || gameState === "LOST" ) ? (
+				<div className="flex flex-col items-center justify-center mt-8 lg:mt-12">
+					<h1 className="text-xl font-light tracking-tight">You {gameState === "WON" ? "won!!" : "lost :("}</h1>
+					<h3 className="text-md font-light tracking-tight">The word was: <span className="font-bold">{word}</span></h3>
+					<button className="bg-wordle-accent text-gray-800 text-md px-6 py-3 rounded-xl mt-8 cursor-pointer hover:scale-105 hover:drop-shadow-xl hover:drop-shadow-black/30 hover:-translate-y-1 transition-all duration-200" onClick={initializeGame}>Play Again</button>
+				</div>
+			) : (
+				<Keyboard handleKeyClick={handleKeyClick} />
+			)}
 
-
-      <footer className="flex justify-center absolute bottom-0 left-0 right-0 mb-2 lg:mb-4">
+      <footer className="flex justify-center mt-auto pt-8 pb-4">
         <a href="https://andres-leal.com" target="_blank" rel="noopener noreferrer" className="text-sm text-gray-500 underline hover:text-gray-300 transition-all duration-200">Made with ❤️ by Andres Leal</a>
       </footer>
-		</>
+		</div>
 	);
 }
 
