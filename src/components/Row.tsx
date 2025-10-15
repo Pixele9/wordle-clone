@@ -29,7 +29,7 @@ export default function Row({ inputWord, word, shouldApplyClassName }: RowProps)
 	);
 
 	return (
-		<div className="flex flex-row items-center justify-center gap-4 my-2">
+		<div className="flex flex-row items-center justify-center gap-2 my-1">
 			{rowLetter.map((letter, index) =>
 				(
 					<Letter
