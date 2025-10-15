@@ -90,11 +90,15 @@ function App() {
 					return <Row key={index} inputWord={letter} word={word} shouldApplyClassName={index < currentRow} />;
 				})}
 			</div>
+      <div className="flex flex-col items-center justify-center mt-16">
+          <h1 className="text-3xl font-light tracking-tight">You {gameSate === "WON" ? "won!!" : "lost :("}</h1>
+          <button className="bg-wordle-accent text-gray-800 text-xl px-10 py-4 rounded-xl mt-8 cursor-pointer" onClick={initializeGame}>Play Again</button>
+        </div>
 
       {( gameSate === "WON" || gameSate === "LOST" ) && (
         <div className="flex flex-col items-center justify-center mt-16">
           <h1 className="text-2xl font-bold">You {gameSate === "WON" ? "won!!" : "lost :("}</h1>
-          <button className="bg-blue-500 text-white px-8 py-3 rounded-md mt-3 cursor-pointer" onClick={initializeGame}>Play Again</button>
+          <button className="bg-wordle-accent text-gray-800 px-8 py-3 rounded-lg mt-3 cursor-pointer" onClick={initializeGame}>Play Again</button>
         </div>
       )}
 		</>

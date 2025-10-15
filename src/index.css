@@ -1,5 +1,18 @@
 @import "tailwindcss";
 
+@theme {
+  --color-wordle-match: #B7EAB3;
+  --color-wordle-partial-match: #EDE8B4;
+  --color-wordle-no-match: #E1DFD7;
+  /* --color-wordle-no-match: #5F6061; */
+  --color-wordle-accent: #EB85AB;
+  --color-wordle-secondary-accent: #EEC8B4;
+}
+
+@layer base {
+
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
