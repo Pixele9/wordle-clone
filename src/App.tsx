@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 
 import Row from "./components/Row";
-import Letter from "./components/Letter";
+import Title from "./components/Title";
+import Keyboard from "./components/Keyboard";
 
 type GameStateType = "PLAYING" | "WON" | "LOST";
 
@@ -27,6 +28,49 @@ function App() {
   useEffect(() => {
     initializeGame();
   }, [initializeGame]);
+
+  // Add this new handler function
+  const handleKeyClick = useCallback((key: string) => {
+    // Handle Enter key
+    if (key === "⏎" && boardData[currentRow].length === 5 && gameState === "PLAYING") {
+      if (boardData[currentRow] === word) {
+        setGameState("WON");
+      }
+      if (currentRow === 5 && boardData[currentRow] !== word) {
+        setGameState("LOST");
+      }
+      setCurrentRow((prev) => prev + 1);
+      return;
+    }
+
+    // Handle Backspace/Delete key
+    if (key === "⌫" && boardData[currentRow].length > 0 && gameState === "PLAYING") {
+      setBoardData((prev) =>
+        Array.from({ length: 6 }, (_, index) =>
+          index === currentRow
+            ? prev[currentRow].slice(0, -1)
+            : prev[index]
+        )
+      );
+      return;
+    }
+
+    // Handle letter keys
+    if (
+      key.match(/[A-Z]/) &&
+      key.length === 1 &&
+      boardData[currentRow].length < 5 &&
+      gameState === "PLAYING"
+    ) {
+      setBoardData((prev) =>
+        Array.from({ length: 6 }, (_, index) =>
+          index === currentRow
+            ? prev[currentRow] + key
+            : prev[index]
+        )
+      );
+    }
+  }, [boardData, currentRow, gameState, word]);
 
 	const handleKeyPress = useCallback(
 		(event: KeyboardEvent) => {
@@ -81,18 +125,14 @@ function App() {
 		};
 	}, [handleKeyPress]);
 
+  console.log('word', word)
+
 	return (
 		<>
 			{/* <h1>Word: {word}</h1> */}
-      <div className="flex flex-row items-center justify-center gap-2">
-        <Letter value="W" className="w-8 h-8 text-md bg-wordle-partial-match text-slate-800"/>
-        <Letter value="O" className="w-8 h-8 text-md bg-wordle-partial-match text-slate-800"/>
-        <Letter value="R" className="w-8 h-8 text-md bg-wordle-partial-match text-slate-800"/>
-        <Letter value="D" className="w-8 h-8 text-md bg-wordle-partial-match text-slate-800"/>
-        <Letter value="L" className="w-8 h-8 text-md bg-wordle-partial-match text-slate-800"/>
-        <Letter value="E" className="w-8 h-8 text-md bg-wordle-partial-match text-slate-800"/>
-      </div>
-			<div className="flex flex-col items-center justify-center mt-24">
+
+      <Title />
+			<div className="flex flex-col items-center justify-center mt-6 lg:mt-24">
 				{/* <h1>Guessing: {boardData[currentRow]}</h1> */}
 				{boardData.map((letter, index) => {
 					return <Row key={index} inputWord={letter} word={word} shouldApplyClassName={index < currentRow} />;
@@ -100,16 +140,19 @@ function App() {
 			</div>
 
 
-      {( gameState === "WON" || gameState === "LOST" ) && (
+      {( gameState === "WON" || gameState === "LOST" ) ? (
         <div className="flex flex-col items-center justify-center mt-16">
           <h1 className="text-xl font-light tracking-tight">You {gameState === "WON" ? "won!!" : "lost :("}</h1>
           <button className="bg-wordle-accent text-gray-800 text-md px-6 py-3 rounded-xl mt-8 cursor-pointer hover:scale-105 hover:drop-shadow-xl hover:drop-shadow-black/30 hover:-translate-y-1 transition-all duration-200" onClick={initializeGame}>Play Again</button>
         </div>
+      ) : (
+        <Keyboard handleKeyClick={handleKeyClick} />
       )}
 
-      <footer className="flex items-center justify-center absolute bottom-0 left-0 right-0 mb-4">
-        <a href="https://andres-leal.com" target="_blank" rel="noopener noreferrer" className="text-sm text-gray-500 underline hover:text-gray-300 transition-all duration-200">Made by Andres Leal</a>
-      </footer>
+
+      {/* <footer className="flex justify-center absolute bottom-0 left-0 right-0 lg:mb-4">
+        <a href="https://andres-leal.com" target="_blank" rel="noopener noreferrer" className="text-sm text-gray-500 underline hover:text-gray-300 transition-all duration-200">Made with ❤️ by Andres Leal</a>
+      </footer> */}
 		</>
 	);
 }
