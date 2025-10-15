@@ -15,14 +15,21 @@ function App() {
   const [gameState, setGameState] = useState<GameStateType>("PLAYING");
 
   const initializeGame = useCallback(async () => {
-    const response = await fetch("/src/utils/words.json");
-    const data = await response.json();
-    const newWord = data[Math.floor(Math.random() * data.length)].toUpperCase();
-    
-    setWord(newWord);
-    setBoardData(Array.from({ length: 6 }, () => ""));
-    setCurrentRow(0);
-    setGameState("PLAYING");
+    try {
+      const response = await fetch("/words.json");
+      if (!response.ok) {
+        throw new Error("Failed to load words");
+      }
+      const data = await response.json();
+      const newWord = data[Math.floor(Math.random() * data.length)].toUpperCase();
+      
+      setWord(newWord);
+      setBoardData(Array.from({ length: 6 }, () => ""));
+      setCurrentRow(0);
+      setGameState("PLAYING");
+    } catch (error) {
+      console.error("Error loading words:", error);
+    }
   }, []);
 
   useEffect(() => {
@@ -91,8 +98,6 @@ function App() {
 		};
 	}, [handleKeyPress]);
 
-  console.log('word', word)
-
 	return (
 		<>
 			{/* <h1>Word: {word}</h1> */}
@@ -109,6 +114,7 @@ function App() {
       {( gameState === "WON" || gameState === "LOST" ) ? (
         <div className="flex flex-col items-center justify-center mt-16">
           <h1 className="text-xl font-light tracking-tight">You {gameState === "WON" ? "won!!" : "lost :("}</h1>
+          <h3 className="text-md font-light tracking-tight">The word was: <span className="font-bold">{word}</span></h3>
           <button className="bg-wordle-accent text-gray-800 text-md px-6 py-3 rounded-xl mt-8 cursor-pointer hover:scale-105 hover:drop-shadow-xl hover:drop-shadow-black/30 hover:-translate-y-1 transition-all duration-200" onClick={initializeGame}>Play Again</button>
         </div>
       ) : (
@@ -116,7 +122,7 @@ function App() {
       )}
 
 
-      <footer className="flex justify-center absolute bottom-0 left-0 right-0 lg:mb-4">
+      <footer className="flex justify-center absolute bottom-0 left-0 right-0 mb-2 lg:mb-4">
         <a href="https://andres-leal.com" target="_blank" rel="noopener noreferrer" className="text-sm text-gray-500 underline hover:text-gray-300 transition-all duration-200">Made with ❤️ by Andres Leal</a>
       </footer>
 		</>
