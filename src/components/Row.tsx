@@ -14,11 +14,11 @@ const getLetterClassName = (
 	const targetWordArray = Array.from(targetWord);
 
 	if (guessLetter === targetLetter) {
-		return "match";
+		return "bg-wordle-match animate-match-animation";
 	} else if (targetWordArray.includes(guessLetter)) {
-		return "partial-match";
+		return "bg-wordle-partial-match animate-match-animation";
 	} else {
-		return "no-match";
+		return "bg-wordle-no-match animate-match-animation";
 	}
 };
 
@@ -35,7 +35,8 @@ export default function Row({ inputWord, word, shouldApplyClassName }: RowProps)
 					<Letter
 						key={index}
 						value={letter}
-						className={shouldApplyClassName ? getLetterClassName(letter, word[index], word) + ` delay-${index * 0.1}s text-slate-800` : ""}
+						className={shouldApplyClassName ? getLetterClassName(letter, word[index], word) + ` text-slate-800` : ""}
+						style={shouldApplyClassName ? { animationDelay: `${index * 200}ms` } : undefined}
 					/>
 				)
 			)}
