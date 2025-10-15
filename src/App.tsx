@@ -13,6 +13,21 @@ function App() {
 
   const [gameSate, setGameState] = useState<GameStateType>("PLAYING");
 
+  const initializeGame = useCallback(async () => {
+    const response = await fetch("/src/utils/words.json");
+    const data = await response.json();
+    const newWord = data[Math.floor(Math.random() * data.length)].toUpperCase();
+    
+    setWord(newWord);
+    setBoardData(Array.from({ length: 6 }, () => ""));
+    setCurrentRow(0);
+    setGameState("PLAYING");
+  }, []);
+
+  useEffect(() => {
+    initializeGame();
+  }, [initializeGame]);
+
 	const handleKeyPress = useCallback(
 		(event: KeyboardEvent) => {
 			// SUBMIT WORD
@@ -66,16 +81,6 @@ function App() {
 		};
 	}, [handleKeyPress]);
 
-	useEffect(() => {
-		const fetchWords = async () => {
-			const response = await fetch("/src/utils/words.json");
-			const data = await response.json();
-
-			setWord(data[Math.floor(Math.random() * data.length)]);
-		};
-		fetchWords();
-	}, []);
-
 	return (
 		<>
 			<h1>Word: {word}</h1>
@@ -89,11 +94,7 @@ function App() {
       {( gameSate === "WON" || gameSate === "LOST" ) && (
         <div className="flex flex-col items-center justify-center mt-16">
           <h1 className="text-2xl font-bold">You {gameSate === "WON" ? "won!!" : "lost :("}</h1>
-          <button className="bg-blue-500 text-white px-8 py-3 rounded-md mt-3 cursor-pointer" onClick={() => {
-            setGameState("PLAYING")
-            setBoardData(Array.from({ length: 6 }, () => ""))
-            setCurrentRow(0)
-          }}>Play Again</button>
+          <button className="bg-blue-500 text-white px-8 py-3 rounded-md mt-3 cursor-pointer" onClick={initializeGame}>Play Again</button>
         </div>
       )}
 		</>

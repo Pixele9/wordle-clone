@@ -35,7 +35,7 @@ export default function Row({ inputWord, word, shouldApplyClassName }: RowProps)
 					<Letter
 						key={index}
 						value={letter}
-						className={shouldApplyClassName ? getLetterClassName(letter, word[index], word) : ""}
+						className={shouldApplyClassName ? getLetterClassName(letter, word[index], word) + ` delay-${index * 0.1}s` : ""}
 					/>
 				)
 			)}
