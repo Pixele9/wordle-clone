@@ -29,10 +29,9 @@ function App() {
     initializeGame();
   }, [initializeGame]);
 
-  // Add this new handler function
-  const handleKeyClick = useCallback((key: string) => {
-    // Handle Enter key
-    if (key === "⏎" && boardData[currentRow].length === 5 && gameState === "PLAYING") {
+  const processKeyInput = useCallback((key: string) => {
+    // Handle Enter
+    if (key === "Enter" && boardData[currentRow].length === 5 && gameState === "PLAYING") {
       if (boardData[currentRow] === word) {
         setGameState("WON");
       }
@@ -42,86 +41,53 @@ function App() {
       setCurrentRow((prev) => prev + 1);
       return;
     }
-
-    // Handle Backspace/Delete key
-    if (key === "⌫" && boardData[currentRow].length > 0 && gameState === "PLAYING") {
+  
+    // Handle Backspace
+    if (key === "Backspace" && boardData[currentRow].length > 0 && gameState === "PLAYING") {
       setBoardData((prev) =>
         Array.from({ length: 6 }, (_, index) =>
-          index === currentRow
-            ? prev[currentRow].slice(0, -1)
-            : prev[index]
+          index === currentRow ? prev[currentRow].slice(0, -1) : prev[index]
         )
       );
       return;
     }
-
-    // Handle letter keys
+  
+    // Handle letters
     if (
-      key.match(/[A-Z]/) &&
       key.length === 1 &&
+      key.match(/[a-zA-Z]/) &&
       boardData[currentRow].length < 5 &&
       gameState === "PLAYING"
     ) {
       setBoardData((prev) =>
         Array.from({ length: 6 }, (_, index) =>
-          index === currentRow
-            ? prev[currentRow] + key
-            : prev[index]
+          index === currentRow ? prev[currentRow] + key.toUpperCase() : prev[index]
         )
       );
     }
   }, [boardData, currentRow, gameState, word]);
 
-	const handleKeyPress = useCallback(
-		(event: KeyboardEvent) => {
-			// SUBMIT WORD
-			if (event.key === "Enter" && boardData[currentRow].length === 5) {
-        if (boardData[currentRow] === word) {
-          setGameState("WON");
-        } 
+  const handleKeyPress = useCallback((key: string) => {
+    processKeyInput(key);
+  }, [processKeyInput]);
 
-        if (currentRow === 5 && boardData[currentRow] !== word) {
-          setGameState("LOST");
-        }
+  const handleKeyClick = useCallback((key: string) => {
+    // Map special symbols to standard key names
+    const keyMap: Record<string, string> = {
+      "⌫": "Backspace",
+      "⏎": "Enter",
+    };
+    processKeyInput(keyMap[key] || key);
+  }, [processKeyInput]);
 
-        setCurrentRow((prev) => prev + 1);
-			}
-
-			// REMOVE LETTERS
-			if (boardData[currentRow].length > 0 && event.key === "Backspace" && gameState === "PLAYING") {
-				setBoardData((prev) =>
-					Array.from({ length: 6 }, (_, index) =>
-						index === currentRow
-							? prev[currentRow].slice(0, -1)
-							: prev[index]
-					)
-				);
-			}
-
-			// ADD NEW LETTERS
-			if (
-				event.key.length === 1 &&
-				event.key.match(/[a-z]/) &&
-				boardData[currentRow].length < 5 &&
-				gameState === "PLAYING"
-			) {
-				setBoardData((prev) =>
-					Array.from({ length: 6 }, (_, index) =>
-						index === currentRow
-							? prev[currentRow].toUpperCase() +
-							  event.key.toUpperCase()
-							: prev[index]
-					)
-				);
-			}
-		},
-		[boardData, currentRow, gameState, word]
-	);
-
+	
 	useEffect(() => {
-		document.addEventListener("keydown", handleKeyPress);
+		const handleDocumentKeyDown = (event: KeyboardEvent) => {
+			handleKeyPress(event.key);
+		};
+		document.addEventListener("keydown", handleDocumentKeyDown);
 		return () => {
-			document.removeEventListener("keydown", handleKeyPress);
+			document.removeEventListener("keydown", handleDocumentKeyDown);
 		};
 	}, [handleKeyPress]);
 
@@ -150,9 +116,9 @@ function App() {
       )}
 
 
-      {/* <footer className="flex justify-center absolute bottom-0 left-0 right-0 lg:mb-4">
+      <footer className="flex justify-center absolute bottom-0 left-0 right-0 lg:mb-4">
         <a href="https://andres-leal.com" target="_blank" rel="noopener noreferrer" className="text-sm text-gray-500 underline hover:text-gray-300 transition-all duration-200">Made with ❤️ by Andres Leal</a>
-      </footer> */}
+      </footer>
 		</>
 	);
 }
