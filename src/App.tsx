@@ -97,6 +97,7 @@ function App() {
 			document.removeEventListener("keydown", handleDocumentKeyDown);
 		};
 	}, [handleKeyPress]);
+  console.log('word', word)
 
 	return (
 		<div className="flex flex-col min-h-screen pb-16">
