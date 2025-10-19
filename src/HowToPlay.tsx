@@ -33,7 +33,7 @@ export default function HowToPlay({ onClose }: { onClose: () => void }) {
 			onClick={handleBackdropClick}
 		>
 			<div 
-				className={`relative w-full max-w-lg max-h-[90vh] overflow-y-auto bg-gray-900 rounded-xl shadow-2xl transition-all duration-300 ${
+				className={`relative w-full max-w-lg max-h-[90vh] overflow-y-auto bg-primary rounded-xl shadow-2xl transition-all duration-300 ${
 					isClosing ? 'scale-95 opacity-0' : 'scale-100 opacity-100'
 				}`}
 				onClick={(e) => e.stopPropagation()}
@@ -73,10 +73,10 @@ export default function HowToPlay({ onClose }: { onClose: () => void }) {
 						<div className="mb-6">
 							<div className="flex gap-1 sm:gap-2 mb-3 justify-start">
 								<Letter value="M" className="bg-wordle-match !text-gray-900" />
-								<Letter value="O" className="bg-gray-700 border-2 border-gray-600" />
-								<Letter value="V" className="bg-gray-700 border-2 border-gray-600" />
-								<Letter value="I" className="bg-gray-700 border-2 border-gray-600" />
-								<Letter value="E" className="bg-gray-700 border-2 border-gray-600" />
+								<Letter value="O" className="bg-primary/80 border-2 border-gray-500" />
+								<Letter value="V" className="bg-primary/80 border-2 border-gray-500" />
+								<Letter value="I" className="bg-primary/80 border-2 border-gray-500" />
+								<Letter value="E" className="bg-primary/80 border-2 border-gray-500" />
 							</div>
 							<p className="text-left text-gray-300 text-sm sm:text-base">
 								<span className="font-bold">M</span> is in the word and in the correct spot.
@@ -86,11 +86,11 @@ export default function HowToPlay({ onClose }: { onClose: () => void }) {
 						{/* Example 2 - Wrong position */}
 						<div className="mb-6">
 							<div className="flex gap-1 sm:gap-2 mb-3 justify-start">
-								<Letter value="A" className="bg-gray-700 border-2 border-gray-600" />
+								<Letter value="A" className="bg-primary/80 border-2 border-gray-500" />
 								<Letter value="P" className="bg-wordle-partial-match !text-gray-900" />
-								<Letter value="P" className="bg-gray-700 border-2 border-gray-600" />
-								<Letter value="L" className="bg-gray-700 border-2 border-gray-600" />
-								<Letter value="Y" className="bg-gray-700 border-2 border-gray-600" />
+								<Letter value="P" className="bg-primary/80 border-2 border-gray-500" />
+								<Letter value="L" className="bg-primary/80 border-2 border-gray-500" />
+								<Letter value="Y" className="bg-primary/80 border-2 border-gray-500" />
 							</div>
 							<p className="text-left text-gray-300 text-sm sm:text-base">
 								<span className="font-bold">P</span> is in the word but in the wrong spot.
@@ -100,11 +100,11 @@ export default function HowToPlay({ onClose }: { onClose: () => void }) {
 						{/* Example 3 - Not in word */}
 						<div className="mb-6">
 							<div className="flex gap-1 sm:gap-2 mb-3 justify-start">
-								<Letter value="E" className="bg-gray-700 border-2 border-gray-600" />
-								<Letter value="N" className="bg-gray-700 border-2 border-gray-600" />
-								<Letter value="T" className="bg-gray-700 border-2 border-gray-600" />
-								<Letter value="E" className="bg-gray-700 border-2 border-gray-600" />
-								<Letter value="R" className="bg-gray-700 border-2 border-gray-600" />
+								<Letter value="E" className="bg-primary/80 border-2 border-gray-500" />
+								<Letter value="N" className="bg-primary/80 border-2 border-gray-500" />
+								<Letter value="T" className="bg-primary/80 border-2 border-gray-500" />
+								<Letter value="E" className="bg-primary/80 border-2 border-gray-500" />
+								<Letter value="R" className="bg-primary/80 border-2 border-gray-500" />
 							</div>
 							<p className="text-left text-gray-300 text-sm sm:text-base">
 								<span className="font-bold">Not a single</span> letter is in the word.
