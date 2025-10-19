@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import Row from "./components/Row";
 import Title from "./components/Title";
 import Keyboard from "./components/Keyboard";
+import HowToPlay from "./HowToPlay";
 
 type GameStateType = "PLAYING" | "WON" | "LOST";
 
@@ -11,6 +12,7 @@ function App() {
 	const boardInitialData = Array.from({ length: 6 }, () => "");
 	const [boardData, setBoardData] = useState<string[]>(boardInitialData);
 	const [currentRow, setCurrentRow] = useState<number>(0);
+  const [showHowToPlay, setShowHowToPlay] = useState<boolean>(false);
 
   const [gameState, setGameState] = useState<GameStateType>("PLAYING");
 
@@ -35,6 +37,11 @@ function App() {
   useEffect(() => {
     initializeGame();
   }, [initializeGame]);
+
+  // On first render, show the how to play modal
+  useEffect(() => {
+    setShowHowToPlay(true);
+  }, []);
 
   const processKeyInput = useCallback((key: string) => {
     // Handle Enter
@@ -101,7 +108,7 @@ function App() {
 
 	return (
 		<div className="flex flex-col min-h-screen pb-16">
-			{/* <h1>Word: {word}</h1> */}
+			{showHowToPlay && <HowToPlay onClose={() => setShowHowToPlay(false)} />}
 
 			<Title />
 			<div className="flex flex-col items-center justify-center mt-4 lg:mt-8">
