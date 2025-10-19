@@ -41,7 +41,7 @@ export default function HowToPlay({ onClose }: { onClose: () => void }) {
 				{/* Close button */}
 				<button 
 					onClick={handleClose} 
-					className="absolute top-4 right-4 text-white text-3xl font-light hover:text-gray-300 transition-colors z-10 w-8 h-8 flex items-center justify-center"
+					className="absolute top-4 right-4 text-white text-3xl font-light hover:text-gray-300 transition-colors z-10 w-8 h-8 flex items-center justify-center hover:cursor-pointer"
 					aria-label="Close"
 				>
 					×

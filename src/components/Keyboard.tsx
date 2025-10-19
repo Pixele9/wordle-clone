@@ -12,11 +12,11 @@ export default function Keyboard({
 	];
 
 	return (
-		<div className="flex flex-col items-center justify-center gap-2 mt-6 lg:mt-8 min-w-[300px]">
+		<div className="flex flex-col items-center justify-center gap-2 mt-6 lg:mt-8 min-w-[300px] md:min-w-[400px] lg:min-w-[600px]">
 			{LAYOUT.map((row, index) => (
 				<div
 					key={index}
-					className="flex items-center justify-center gap-2"
+					className="flex items-center justify-center gap-2 w-full"
 				>
 					{row.map((key, index) => (
 						<Key
